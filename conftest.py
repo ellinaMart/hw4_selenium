@@ -19,9 +19,22 @@ def pytest_addoption(parser):
         help="This is opencart url"
     )
 
+    parser.addoption(
+        "--admin_url",
+        action="store",
+        default="https://demo.opencart.com/admin/",
+        help="This is opencart url"
+    )
+
+
 @pytest.fixture(scope="session")
 def base_url(request):
     return request.config.getoption("--url")
+
+@pytest.fixture(scope="session")
+def admin_url(request):
+    return request.config.getoption("--admin_url")
+
 
 @pytest.fixture(scope="session")
 def browser(request):

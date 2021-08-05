@@ -1,4 +1,4 @@
-from page_objects.LoginAdminPage import LoginAdminPage, LoginPage, Dashboard, Catalog, Product
+from page_objects.LoginAdminPage import *
 
 
 def test_admin_login_page(browser, base_url):

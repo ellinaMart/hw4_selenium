@@ -1,4 +1,3 @@
-
 from page_objects.LoginAdminPage import LoginAdminPage, LoginPage, Dashboard, Catalog, Product
 
 

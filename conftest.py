@@ -39,7 +39,6 @@ def base_url(request):
 def admin_url(request):
     return request.config.getoption("--admin_url")
 
-
 @pytest.fixture(scope="session")
 def browser(request):
     browser = request.config.getoption("--browser")

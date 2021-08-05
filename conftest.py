@@ -1,12 +1,12 @@
 import pytest
 import os
 
-from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.opera.options import Options as OperaOptions
+from page_objects.LoginAdminPage import LoginAdminPage
+
 
 DRIVERS = os.path.expanduser("~/Develop/drivers")
-
 
 def pytest_addoption(parser):
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
@@ -22,13 +22,14 @@ def pytest_addoption(parser):
 @pytest.fixture(scope="session")
 def url_token(browser, base_url):
     browser.get(base_url + "/admin")
-    browser.find_element(By.ID, "input-username").send_keys("demo")
-    browser.find_element(By.NAME, "password").send_keys("demo")
-    browser.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+    browser.find_element(*LoginAdminPage.USERNAME_INPUT).clear()
+    browser.find_element(*LoginAdminPage.USERNAME_INPUT).send_keys("demo")
+    browser.find_element(*LoginAdminPage.PASSWORD_INPUT).clear()
+    browser.find_element(*LoginAdminPage.PASSWORD_INPUT).send_keys("demo")
+    browser.find_element(*LoginAdminPage.SUBMIT_BUTTON).click()
     url_with_token = browser.current_url
     token = url_with_token.split('&')[1]
     return url_with_token, token
-    
 
 @pytest.fixture(scope="session")
 def base_url(request):

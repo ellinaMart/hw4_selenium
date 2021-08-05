@@ -1,6 +1,7 @@
 import pytest
 import os
 
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.opera.options import Options as OperaOptions
 
@@ -11,21 +12,23 @@ def pytest_addoption(parser):
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
     parser.addoption("--headless", action="store_true", help="Run headless")
     parser.addoption("--browser", action="store", choices=["chrome", "firefox", "opera"], default="chrome")
-
     parser.addoption(
         "--url",
         action="store",
-        default="https://www.opencart.com/",
+        default="https://demo.opencart.com",
         help="This is opencart url"
     )
 
-    parser.addoption(
-        "--admin_url",
-        action="store",
-        default="https://demo.opencart.com/admin/",
-        help="This is opencart url"
-    )
-
+@pytest.fixture(scope="session")
+def url_token(browser, base_url):
+    browser.get(base_url + "/admin")
+    browser.find_element(By.ID, "input-username").send_keys("demo")
+    browser.find_element(By.NAME, "password").send_keys("demo")
+    browser.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
+    url_with_token = browser.current_url
+    token = url_with_token.split('&')[1]
+    return url_with_token, token
+    
 
 @pytest.fixture(scope="session")
 def base_url(request):

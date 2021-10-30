@@ -4,11 +4,26 @@ from page_objects.BasePage import BasePage
 
 class LoginAdminPage(BasePage):
     # страница логина
-    USERNAME_INPUT = (By.ID, "input-username")
-    PASSWORD_INPUT = (By.NAME, "password")
-    SUBMIT_BUTTON = (By.CSS_SELECTOR, "button[type='submit']")
+    USERNAME_INPUT = {'css': '#input-username'}
+    PASSWORD_INPUT = {'css': '#input-password'}
+    SUBMIT_BUTTON = {'css': 'button[type=submit]'}
+    CATALOG_BUTTON = {link_text: 'Catalog'}
+    PRODUCTS_BUTTON = {link_text: 'Products'}
+
+
     OPENCART_LINK = (By.XPATH, "//*[text()='OpenCart']")
     FORGOTTEN_PASSWORD = (By.LINK_TEXT, "Forgotten Password")
+
+    def login_user(self, login, password):
+        self._input(self.USERNAME_INPUT, login)
+        self._input(self.PASSWORD_INPUT, password)
+        self._click(self.SUBMIT_BUTTON)
+        return self
+
+    def go_to_products(self):
+        self._click(self.CATALOG_BUTTON)
+        self._click(self.PRODUCTS_BUTTON)
+        return self
 
 class LoginPage:
     CART_TOTAL = (By.ID, "cart-total")

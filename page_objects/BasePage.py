@@ -58,6 +58,8 @@ class BasePage:
         self.driver = driver
         self.alert = Alert(self.driver)
 
+        #self.driver.find_element_by_css_selector(self.SUCCESS_ALERT_LOGIN['css']).click()
+
     def __element(self, selector: dict, index: int, link_text: str = None):
         by = None
         if link_text:
@@ -65,6 +67,7 @@ class BasePage:
         elif 'css' in selector.keys():
             by = By.CSS_SELECTOR
             selector = selector['css']
+            #import pdb; pdb.set_trace()
         return self.driver.find_elements(by, selector)[index]
 
     def _click(self, selector, index=0):

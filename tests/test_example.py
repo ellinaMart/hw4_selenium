@@ -8,11 +8,18 @@ from page_objects.elements.SuccessAlert import SuccessAlert
 
 def test_admin_login_page(browser):
     browser.open("/admin")
-    import pdb; pdb.set_trace()
     LoginAdminPage(browser) \
+        .login_user(login="test2@mail.ru", password="test")
 
+def add_product(browser):
+    LoginAdminPage(browser) \
+        .go_to_products()
+    import pdb;
+    pdb.set_trace()
 
 def test_add_to_wish_list(browser):
+
+
     product_name = MainPage(browser).get_featured_product_name(1)
     MainPage(browser) \
         .click_featured_product(1) \

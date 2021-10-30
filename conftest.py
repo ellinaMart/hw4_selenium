@@ -34,7 +34,7 @@ def browser(request):
 
         driver = webdriver.Chrome(
             options=options,
-            executable_path=f"{DRIVERS}/chromedriver"
+            executable_path=f"{DRIVERS}/chromedriver 2"
         )
     elif browser == "firefox":
         options = webdriver.FirefoxOptions()

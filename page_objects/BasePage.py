@@ -62,13 +62,23 @@ class BasePage:
 
     def __element(self, selector: dict, index: int, link_text: str = None):
         by = None
+        #import pdb; pdb.set_trace()
         if link_text:
             by = By.LINK_TEXT
+        if 'xpath' in selector.keys():
+            by = By.XPATH
+            selector = selector['xpath']
         elif 'css' in selector.keys():
             by = By.CSS_SELECTOR
             selector = selector['css']
-            #import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         return self.driver.find_elements(by, selector)[index]
+
+    def _click_link(self, link_text):
+        #import pdb; pdb.set_trace()
+        import time;
+        time.sleep(5)
+        return self.driver.find_element(By.LINK_TEXT, link_text)
 
     def _click(self, selector, index=0):
         ActionChains(self.driver).move_to_element(self.__element(selector, index)).click().perform()
@@ -78,7 +88,7 @@ class BasePage:
         element.clear()
         element.send_keys(value)
 
-    def _wait_for_visible(self, selector, link_text=None, index=0, wait=3):
+    def _wait_for_visible(self, selector, link_text=None, index=0, wait=20):
         return WebDriverWait(self.driver, wait).until(EC.visibility_of(self.__element(selector, index, link_text)))
 
     def _get_element_text(self, selector, index):

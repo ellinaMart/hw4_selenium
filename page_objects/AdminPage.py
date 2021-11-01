@@ -3,16 +3,22 @@ from page_objects.BasePage import BasePage
 
 
 class LoginAdminPage(BasePage):
-    # страница логина
     USERNAME_INPUT = {'css': '#input-username'}
     PASSWORD_INPUT = {'css': '#input-password'}
     SUBMIT_BUTTON = {'css': 'button[type=submit]'}
-    CATALOG_BUTTON = {link_text: 'Catalog'}
-    PRODUCTS_BUTTON = {link_text: 'Products'}
+    CATALOG_BUTTON = {'css': '#menu-catalog'}
+    ADD_NEW = {'css': 'a[data-original-title="Add New"]'}
+    PRODUCTS_BUTTON = {'xpath': "//*[text()='Products']"}
+    PRODUCT_NAME = {'css': '#input-name1'}
+    PRODUCT_TITLE = {'css': '#input-meta-title1'}
+    DATA = {'xpath': "//*[text()='Data']"}
+    PRODUCT_MODEL = {'css': '#input-model'}
+    PRODUCT_CHECKBOX = {'css': '*[type=checkbox]'}
+    DELETE_BUTTON = {'css': 'i[class="fa fa-trash-o"]'}
 
 
-    OPENCART_LINK = (By.XPATH, "//*[text()='OpenCart']")
-    FORGOTTEN_PASSWORD = (By.LINK_TEXT, "Forgotten Password")
+    # OPENCART_LINK = (By.XPATH, "//*[text()='OpenCart']")
+    # FORGOTTEN_PASSWORD = (By.LINK_TEXT, "Forgotten Password")
 
     def login_user(self, login, password):
         self._input(self.USERNAME_INPUT, login)
@@ -22,8 +28,34 @@ class LoginAdminPage(BasePage):
 
     def go_to_products(self):
         self._click(self.CATALOG_BUTTON)
+        import time
+        time.sleep(3)
         self._click(self.PRODUCTS_BUTTON)
         return self
+
+    def add_product_button(self):
+        import time
+        time.sleep(3)
+        self._click(self.ADD_NEW)
+        return self
+
+    def fill_product_form(self, name, title, model):
+        self._input(self.PRODUCT_NAME, name)
+        self._input(self.PRODUCT_TITLE, title)
+        self._click(self.DATA)
+        self._input(self.PRODUCT_MODEL, model)
+        self._click(self.SUBMIT_BUTTON)
+        import time; time.sleep(3)
+        return self
+
+    def delete_product(self):
+        self._click(self.PRODUCT_CHECKBOX, index=1)
+        #import time; time.sleep(5)
+        self._wait_for_visible(self.DELETE_BUTTON)
+        self._click(self.DELETE_BUTTON)
+        return self
+
+
 
 class LoginPage:
     CART_TOTAL = (By.ID, "cart-total")

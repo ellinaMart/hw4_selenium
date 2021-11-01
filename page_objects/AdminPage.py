@@ -16,10 +16,6 @@ class LoginAdminPage(BasePage):
     PRODUCT_CHECKBOX = {'css': '*[type=checkbox]'}
     DELETE_BUTTON = {'css': 'i[class="fa fa-trash-o"]'}
 
-
-    # OPENCART_LINK = (By.XPATH, "//*[text()='OpenCart']")
-    # FORGOTTEN_PASSWORD = (By.LINK_TEXT, "Forgotten Password")
-
     def login_user(self, login, password):
         self._input(self.USERNAME_INPUT, login)
         self._input(self.PASSWORD_INPUT, password)

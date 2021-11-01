@@ -11,6 +11,10 @@ class UserPage(BasePage):
     LOGIN_PASSWORD_INPUT = {'css': '#input-password'}
     LOGIN_BUTTON = {'css': 'input[value=Login]'}
 
+
+
+
+
     def login_user(self, email, password):
         self._input(self.LOGIN_EMAIL_INPUT, email)
         self._input(self.LOGIN_PASSWORD_INPUT, password)

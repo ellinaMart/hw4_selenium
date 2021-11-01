@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from page_objects.BasePage import BasePage
 
 
-class LoginAdminPage(BasePage):
+class AdminPage(BasePage):
     USERNAME_INPUT = {'css': '#input-username'}
     PASSWORD_INPUT = {'css': '#input-password'}
     SUBMIT_BUTTON = {'css': 'button[type=submit]'}

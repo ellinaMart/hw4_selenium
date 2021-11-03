@@ -48,6 +48,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+
 
 from .common.Alert import Alert
 
@@ -58,11 +60,8 @@ class BasePage:
         self.driver = driver
         self.alert = Alert(self.driver)
 
-        #self.driver.find_element_by_css_selector(self.SUCCESS_ALERT_LOGIN['css']).click()
-
     def __element(self, selector: dict, index: int, link_text: str = None):
         by = None
-        #import pdb; pdb.set_trace()
         if link_text:
             by = By.LINK_TEXT
         if 'xpath' in selector.keys():
@@ -71,7 +70,6 @@ class BasePage:
         elif 'css' in selector.keys():
             by = By.CSS_SELECTOR
             selector = selector['css']
-        #import pdb; pdb.set_trace()
         return self.driver.find_elements(by, selector)[index]
 
     def _click_link(self, link_text):
@@ -93,3 +91,5 @@ class BasePage:
 
     def _get_element_text(self, selector, index):
         return self.__element(selector, index).text
+
+

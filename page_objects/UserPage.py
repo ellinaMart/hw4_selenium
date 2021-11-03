@@ -21,7 +21,7 @@ class UserPage(BasePage):
     USER_AGREE = {'css': 'input[type="checkbox"]'}
     USER_SUBMIT = {'css': 'input[type="submit"]'}
     USER_CONTENT = {'css': '#content'}
-    CARET_CURRENCY = {'css': 'span[class="fa fa-caret-down"]'}
+    CARET_CURRENCY = {'css': '#form-currency'}
     GBP_BUTTON = {'css': 'button[name="GBP"]'}
     LOGIN_BUTTON_1 = {'xpath': "//*[text()='Login']"}
 

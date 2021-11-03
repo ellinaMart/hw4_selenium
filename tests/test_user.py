@@ -20,3 +20,4 @@ def test_change_currency(browser):
         .open_login_form() \
         .login_user(email="ivan@test.ru", password="Ivan12") \
         .change_currency()
+

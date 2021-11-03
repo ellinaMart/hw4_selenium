@@ -22,6 +22,8 @@ def test_admin_delete_product(browser):
         .go_to_products() \
         .delete_product()
 
+
+
 #
 #
 #     product_name = MainPage(browser).get_featured_product_name(1)

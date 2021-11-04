@@ -21,12 +21,10 @@ def browser(request):
     """ Фикстура инициализации браузера """
 
     browser = request.config.getoption("--browser")
-    #executor = request.config.getoption("--executor")
     url = request.config.getoption("--url")
     tolerance = request.config.getoption("--tolerance")
     headless = request.config.getoption("--headless")
 
-    # https://www.selenium.dev/documentation/en/webdriver/page_loading_strategy/
     common_caps = {"pageLoadStrategy": "eager"}
     if browser == "chrome":
         options = webdriver.ChromeOptions()
@@ -53,22 +51,6 @@ def browser(request):
         )
     else:
         raise ValueError("Driver not supported: {}".format(browser))
-    # if executor == "local":
-    #     driver = webdriver.Chrome(
-    #         executable_path=f"{DRIVERS}/chromedriver",
-    #         desired_capabilities=common_caps
-    #     )
-    # else:
-    #
-    #     desired_capabilities = {
-    #         "browser": browser,
-    #         **common_caps
-    #     }
-
-        # driver = webdriver.Remote(
-        #     desired_capabilities=desired_capabilities,
-        #     command_executor=f"http://{executor}:4444/wd/hub",
-        # )
 
     request.addfinalizer(driver.quit)
 

@@ -39,7 +39,6 @@ class UserPage(BasePage):
         self._input(self.USER_CONFIRM, password)
         self._click(self.USER_AGREE)
         self._click(self.USER_SUBMIT)
-        import time; time.sleep(5)
         return self
 
     def check_account_created(self):

@@ -27,22 +27,10 @@ class AdminPage(BasePage):
     FORM_CATEGORY = {'css': '#form-category'}
     BUTTON_DELETE = {'css': 'button[type=button]'}
     PAGINATION = {'css': 'ul[class="pagination"]'}
-
     EDIT = {'css': 'a[data-original-title=Edit]'}
-    ADD_NEW = {'css': 'a[data-original-title="Add New"]'}
     COPY = {'css': 'button[data-original-title=Copy]'}
-    BUTTON_SAVE = {'css': 'button[type=submit]'}
-    CANCEL = {'css': 'a[data-original-title=Cancel]'}
-
-
-    # CART_TOTAL = {'css', '#cart-total'}
-    # DESKTOPS = {'x§path', "//*[text()='Desktops']"}
-    # ACCOUNT_LOGIN = {'css', '#account-login'}
-    # COLUMN_RIGHT = {'css', '#column-right'}
-    # SEARCH = {'css', '#search'}
-
-
-
+    DELETE = {'css': 'button[data-original-title=Delete]'}
+    FILTER = {'css': '#filter-product'}
 
     def login_user(self, login, password):
         self._input(self.USERNAME_INPUT, login)
@@ -105,38 +93,7 @@ class AdminPage(BasePage):
         self._wait_for_visible(self.EDIT)
         self._wait_for_visible(self.ADD_NEW)
         self._wait_for_visible(self.COPY)
-        self._wait_for_visible(self.BUTTON_SAVE)
-        self._wait_for_visible(self.CANCEL)
+        self._wait_for_visible(self.DELETE)
+        self._wait_for_visible(self.FILTER)
         return self
 
-
-
-
-
-
-
-
-
-
-
-
-
-class Dashboard:
-    BUTTON_SETTING = (By.ID, "button-setting")
-    OPEN_CART = (By.LINK_TEXT, "OpenCart")
-    VMAP = (By.ID, "vmap")
-    NAVIGATION = (By.ID, "navigation")
-
-class Catalog:
-    CATEGORIES = (By.LINK_TEXT, "Categories")
-    CHECKBOX = (By.CSS_SELECTOR, "input[type='checkbox']")
-    FORM_CATEGORY = (By.ID, "form-category")
-    BUTTON_DELETE = (By.CSS_SELECTOR, "button[type='button']")
-    PAGINATION = (By.CSS_SELECTOR, "ul[class='pagination']")
-
-class Product:
-    EDIT = (By.CSS_SELECTOR, "a[data-original-title='Edit']")
-    PRODUCTS = (By.LINK_TEXT, "Products")
-    TAB_DATA = (By.ID, "tab-data")
-    BUTTON_SAVE = (By.CSS_SELECTOR, "button[type='submit']")
-    CANCEL = (By.CSS_SELECTOR, "a[data-original-title='Cancel']")

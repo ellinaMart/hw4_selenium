@@ -3,7 +3,6 @@ from .BasePage import BasePage
 
 class UserPage(BasePage):
     """Страница пользователя"""
-
     RIGHT_MENU = {'css': '#column-right'}
     WISH_LIST = {'css': RIGHT_MENU['css'] + ' a:nth-child(5)'}
     PAYMENT_FORM = {'css': '#payment-new'}

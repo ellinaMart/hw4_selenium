@@ -1,11 +1,13 @@
 import pytest
 import os
+import logging
 
 from selenium import webdriver
 from selenium.webdriver.opera.options import Options as OperaOptions
 
 
 DRIVERS = os.path.expanduser("~/Develop/drivers")
+logging.basicConfig(level=logging.INFO, filename="logs/selenium.log")
 
 
 def pytest_addoption(parser):
@@ -24,6 +26,10 @@ def browser(request):
     url = request.config.getoption("--url")
     tolerance = request.config.getoption("--tolerance")
     headless = request.config.getoption("--headless")
+    logger = logging.getLogger('BrowserLogger')
+    test_name = request.node.name
+
+    logger.info("===> Test {} started".format(test_name))
 
     common_caps = {"pageLoadStrategy": "eager"}
     if browser == "chrome":
@@ -52,9 +58,16 @@ def browser(request):
     else:
         raise ValueError("Driver not supported: {}".format(browser))
 
-    request.addfinalizer(driver.quit)
+    #request.addfinalizer(driver.quit)
+
+    logger.info("Browser {} started with {}".format(browser, driver.desired_capabilities))
+
+    def fin():
+        driver.quit()
+        logger.info("===> Test {} finished".format(test_name))
 
     def open(path=""):
+        logger.info("Opening url: {}".format(url))
         return driver.get(url + path)
 
     driver.maximize_window()
@@ -62,5 +75,7 @@ def browser(request):
     driver.open = open
     driver.open()
     driver.t = tolerance
+
+    request.addfinalizer(fin)
 
     return driver

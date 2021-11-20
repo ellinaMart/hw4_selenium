@@ -79,3 +79,17 @@ def browser(request):
     request.addfinalizer(fin)
 
     return driver
+
+
+@pytest.fixture(scope="session", autouse=True)
+def get_environment(pytestconfig):
+    props = {
+        'Shell': os.getenv('SHELL'),
+        'Terminal': os.getenv('TERM'),
+        'Stand': 'Production'
+    }
+
+    tests_root = pytestconfig.rootdir
+    with open(f'{tests_root}/allure-results/environment.properties', 'w') as f:
+        for k, v in props.items():
+            f.write(f'{k}={v}\n')

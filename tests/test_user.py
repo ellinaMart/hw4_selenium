@@ -1,8 +1,11 @@
 import random
+import allure
+
 from page_objects.UserPage import UserPage
 from tests.data import test_user, new_test_user
 
 
+@allure.title(f"Test user registration with data: {new_test_user['login'],new_test_user['password']}")
 def test_user_register(browser):
     browser.open()
     UserPage(browser) \
@@ -14,6 +17,7 @@ def test_user_register(browser):
                             password=new_test_user['password']) \
         .check_account_created()
 
+@allure.title("Test change currency")
 def test_change_currency(browser):
     browser.open()
     UserPage(browser) \

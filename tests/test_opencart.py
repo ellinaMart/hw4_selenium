@@ -1,7 +1,10 @@
+import allure
+
 from page_objects.AdminPage import AdminPage
 from tests.data import test_admin
 
 
+@allure.title("Test check elements onn admin page")
 def test_admin_page(browser):
     browser.open("/admin")
     AdminPage(browser) \

@@ -1,3 +1,5 @@
+import allure
+
 from selenium.webdriver.common.by import By
 from page_objects.BasePage import BasePage
 
@@ -32,26 +34,31 @@ class AdminPage(BasePage):
     DELETE = {'css': 'button[data-original-title=Delete]'}
     FILTER = {'css': '#filter-product'}
 
+    @allure.step("Login with user role {login}, {password}")
     def login_user(self, login, password):
         self._input(self.USERNAME_INPUT, login)
         self._input(self.PASSWORD_INPUT, password)
         self._click(self.SUBMIT_BUTTON)
         return self
 
+    @allure.step("Go to products page")
     def go_to_products(self):
         self._click(self.CATALOG_BUTTON)
         self._click(self.PRODUCTS_BUTTON)
         return self
 
+    @allure.step("Go to categories page")
     def go_to_categories(self):
         self._click(self.CATALOG_BUTTON)
         self._click(self.CATEGORIES_BUTTON)
         return self
 
+    @allure.step("Add product")
     def add_product_button(self):
         self._click(self.ADD_NEW)
         return self
 
+    @allure.step("Fill product page")
     def fill_product_form(self, name, title, model):
         self._input(self.PRODUCT_NAME, name)
         self._input(self.PRODUCT_TITLE, title)
@@ -60,12 +67,14 @@ class AdminPage(BasePage):
         self._click(self.SUBMIT_BUTTON)
         return self
 
+    @allure.step("Delete product")
     def delete_product(self):
         self._click(self.PRODUCT_CHECKBOX, index=1)
         self._wait_for_visible(self.DELETE_BUTTON)
         self._click(self.DELETE_BUTTON)
         return self
 
+    @allure.step("Check elements on admin login page")
     def check_elements_login_page(self):
         self._wait_for_visible(self.USERNAME_INPUT)
         self._wait_for_visible(self.PASSWORD_INPUT)
@@ -74,6 +83,7 @@ class AdminPage(BasePage):
         self._wait_for_visible(self.FORGOTTEN_PASSWORD)
         return self
 
+    @allure.step("Check elements on dashboard")
     def check_elements_dashboard(self):
         self._wait_for_visible(self.BUTTON_SETTING)
         self._wait_for_visible(self.OPEN_CART)
@@ -81,6 +91,7 @@ class AdminPage(BasePage):
         self._wait_for_visible(self.NAVIGATION)
         return self
 
+    @allure.step("Check elements onn categories page")
     def check_elements_categories(self):
         self._wait_for_visible(self.SORT_ORDER)
         self._wait_for_visible(self.CHECKBOX)
@@ -89,6 +100,7 @@ class AdminPage(BasePage):
         self._wait_for_visible(self.PAGINATION)
         return self
 
+    @allure.step("Check elements on products page")
     def check_elements_products(self):
         self._wait_for_visible(self.EDIT)
         self._wait_for_visible(self.ADD_NEW)

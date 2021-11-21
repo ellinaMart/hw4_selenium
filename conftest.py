@@ -11,8 +11,13 @@ logging.basicConfig(level=logging.INFO, filename="logs/selenium.log")
 
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", "-B", default="chrome")
-    #parser.addoption("--executor", "-E", default="127.0.0.1")
+    parser.addoption("--browser", action="store", default="chrome")
+    parser.addoption("--executor", action="store", default="localhost")
+    parser.addoption("--bversion", action="store", default="92.0")
+    parser.addoption("--vnc", action="store_true", default=False)
+    parser.addoption("--logs", action="store_true", default=False)
+    parser.addoption("--videos", action="store_true", default=False)
+    parser.addoption("--mobile", action="store_true")
     parser.addoption("--url", "-U", default="http://demo.opencart.com/")
     parser.addoption("--tolerance", type=int, default=3)
     parser.addoption("--headless", action="store_true", help="Run headless")
@@ -23,6 +28,12 @@ def browser(request):
     """ Фикстура инициализации браузера """
 
     browser = request.config.getoption("--browser")
+    executor = request.config.getoption("--executor")
+    version = request.config.getoption("--bversion")
+    vnc = request.config.getoption("--vnc")
+    logs = request.config.getoption("--logs")
+    videos = request.config.getoption("--videos")
+    mobile = request.config.getoption("--mobile")
     url = request.config.getoption("--url")
     tolerance = request.config.getoption("--tolerance")
     headless = request.config.getoption("--headless")
@@ -31,34 +42,42 @@ def browser(request):
 
     logger.info("===> Test {} started".format(test_name))
 
-    common_caps = {"pageLoadStrategy": "eager"}
-    if browser == "chrome":
-        options = webdriver.ChromeOptions()
-        options.headless = headless
 
-        driver = webdriver.Chrome(
-            options=options,
-            executable_path=f"{DRIVERS}/chromedriver 2"
-        )
-    elif browser == "firefox":
-        options = webdriver.FirefoxOptions()
-        options.headless = headless
+    if executor == "local":
+        caps = {'goog:chromeOptions': {}}
 
-        driver = webdriver.Firefox(
-            options=options,
-            executable_path=f"{DRIVERS}/geckodriver"
-        )
-    elif browser == "opera":
-        options = OperaOptions()
+        if mobile:
+            caps["goog:chromeOptions"]["mobileEmulation"] = {"deviceName": "iPhone 5/SE"}
 
-        driver = webdriver.Opera(
-            options=options,
-            executable_path=f"{DRIVERS}/operadriver"
-        )
+        wd = webdriver.Chrome(desired_capabilities=caps)
+
     else:
-        raise ValueError("Driver not supported: {}".format(browser))
+        executor_url = f"http://{executor}:4444/wd/hub"
 
-    #request.addfinalizer(driver.quit)
+        caps = {
+            "browserName": browser,
+            "browserVersion": version,
+            "screenResolution": "1280x1024",
+            "name": "agr tests",
+            "selenoid:options": {
+                "sessionTimeout": "60s",
+                "enableVNC": vnc,
+                "enableVideo": videos,
+                "enableLog": logs
+            },
+            # 'goog:chromeOptions': {}
+        }
+
+        if browser == "chrome" and mobile:
+            caps["goog:chromeOptions"]["mobileEmulation"] = {"deviceName": "iPhone 5/SE"}
+
+        wd = webdriver.Remote(
+            command_executor=executor_url,
+            desired_capabilities=caps
+        )
+
+        if not mobile:
+            wd.maximize_window()
 
     logger.info("Browser {} started with {}".format(browser, driver.desired_capabilities))
 
